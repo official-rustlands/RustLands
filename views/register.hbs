@@ -1,0 +1,375 @@
+<style>
+    .btn-rust-red {
+        background: var(--color-rust-red);
+        color: var(--color-white);
+        border-radius: 0;
+        font-family: var(--font-primary);
+    }
+
+    .btn-rust-red-nav {
+        background: var(--color-rust-red);        
+        color: var(--color-white);
+        border-radius: 0;
+        font-family: var(--font-primary);
+    }
+
+    .btn-rust-red-nav:hover {
+        background: var(--color-white);
+        color: var(--color-rust-red);
+        border-radius: 0;
+        font-family: var(--font-primary);
+    }
+
+    h4 {
+        color: #CF412C;
+    }
+
+    .main-footer__link {
+        color: white;
+        font-weight: 500;
+    }
+</style>
+
+<div class="min-height-100vh flex flex-center padding-sm" style="background-position: center; background-image: url('https://cdn.discordapp.com/attachments/1126965426207871157/1136375611548520528/4k-Banner-dimmed.png');">
+    <form method="POST" action="/register" style="background-color: #232323;" class="radius-md padding-lg max-width-xs">
+        <div class="text-center margin-bottom-sm">
+            <h1>Register</h1>
+        </div>
+
+        {{#if redirected}}
+        <div style="grid-template-columns: 32px 1fr;" class="author margin-bottom-sm author--minimal">
+            <i class="fas margin-left-xxxs noselect icon text-left fa-info-circle"></i>
+
+            <div class="author__content text-xs">
+
+                <p>If you were redirected here from Steam/Discord Login, you may need to register an account with us before logging in with Steam/Discord. However, if you have registered an account with us, please login with your username and password and navigate to options to link your Steam/Discord account with your account with us.</p>
+            </div>
+        </div>
+        {{/if}}
+
+        <div class="margin-bottom-sm">
+            <label class="form-label margin-bottom-xxxs" for="username">What do you want as your username?</label>
+            <input class="form-control width-100%" id="username" title="There is a maximum length of 12 characters."
+                autocomplete="off" name="username" aria-label="Username" type="text" placeholder="john_doe202"
+                maxlength="12" pattern=".{8,}" required title="8 characters minimum">
+        </div>
+
+        <div class="margin-bottom-sm">
+            <label class="form-label margin-bottom-xxxs" for="address">What is your email address?
+                <i aria-controls="privacy-policy" class="fas margin-left-xxxs noselect icon text-sm fa-info-circle"></i>
+            </label>
+            <input class="form-control width-100%" id="address" title="There is a maximum length of 64 characters."
+                autocomplete="off" name="address" aria-label="address" type="address"
+                placeholder="john_doe1216@jdoe.com" maxlength="64" pattern=".{8,}" required
+                title="8 characters minimum">
+        </div>
+
+        <div id="privacy-policy" class="popover bg padding-sm radius-md shadow-md js-popover js-tab-focus"
+            role="dialog">
+            <div class="text-component text-sm">
+                <h1 class="text-md">Suspicious?</h1>
+                <p>You can learn more about our privacy policy by visiting our <a class="noselect"
+                        href="/legals/privacy-policy">legals</a>.</p>
+            </div>
+        </div>
+
+        <div class="margin-bottom-sm">
+            <div class="flex justify-between margin-bottom-xxxs">
+                <label class="form-label" for="password">What do you want as your password?</label>
+                <span class="text-sm"><a href="/forgot-your-password">Forgot your password?</a></span>
+            </div>
+
+            <input class="form-control password__input js-password__input width-100%" id="password" autocomplete="off"
+                class="form-control " name="password" aria-label="Password" type="password" placeholder="jdoe/@01"
+                title="There is a maximum length of 20 characters." maxlength="20" pattern=".{10,}" required
+                title="10 characters minimum">
+        </div>
+
+        <div class="margin-bottom-sm">
+            <div class="flex justify-between">
+                <input class="checkbox checkbox--inline" type="checkbox" name="newsletter" id="newsletter">
+                <label class="text-sm" for="newsletter">Do you want e-mails with Updates and News about Acolytes?</label>
+            </div>
+        </div>
+
+        <div class="margin-bottom-xs">
+            <button type="submit"
+                class="btn btn-rust-red sign-up__btn btn--form btn--preserve-width btn--md width-100%">
+                <span style="font-weight: 700;" class="btn__content-a">Register</span>
+                <span class="btn__content-b">
+                    <svg class="icon icon--is-spinning" aria-hidden="true" viewBox="0 0 16 16">
+                        <title>Loading</title>
+                        <g stroke-width="1" fill="currentColor" stroke="currentColor">
+                            <path d="M.5,8a7.5,7.5,0,1,1,1.91,5" fill="none" stroke="currentColor"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </g>
+                    </svg>
+                </span>
+            </button>
+        </div>
+
+        <div class="text-center">
+            <p class="text-sm">Already have an account? <a href="/login">Login</a></p>
+            <p class="text-sm">What am I registering for? <a href="/legals/terms-and-conditions">Terms and Conditions</a></p>
+        </div>
+    </form>
+</div>
+
+<script class="hbs-ui__scripts">
+    $(async () => {
+        // left: 37, up: 38, right: 39, down: 40,
+        // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+        var keys = {37: 1, 38: 1, 39: 1, 40: 1};
+
+        function preventDefault(e) {
+            e.preventDefault();
+        }
+
+        function preventDefaultForScrollKeys(e) {
+            if (keys[e.keyCode]) {
+                preventDefault(e);
+                return false;
+            }
+        }
+
+        // modern Chrome requires { passive: false } when adding event
+        var supportsPassive = false;
+        try {
+            window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
+                get: function () { supportsPassive = true; } 
+            }));
+        } catch(e) {}
+
+        var wheelOpt = supportsPassive ? { passive: false } : false;
+        var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+
+        // call this to Disable
+        function disableScroll() {
+            window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
+            window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
+            window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
+            window.addEventListener('keydown', preventDefaultForScrollKeys, false);
+        }
+
+        // call this to Enable
+        function enableScroll() {
+            window.removeEventListener('DOMMouseScroll', preventDefault, false);
+            window.removeEventListener(wheelEvent, preventDefault, wheelOpt); 
+            window.removeEventListener('touchmove', preventDefault, wheelOpt);
+            window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
+        }
+
+        disableScroll();
+    })
+
+    $(async () => {
+        let isSubmitted = false;
+
+        $('form').on('submit', async (e) => {
+            e.preventDefault();
+
+            if (isSubmitted) {
+                return;
+            }
+
+            isSubmitted = true;
+
+            $('[type=submit]').toggleClass('btn--state-b');
+
+            $.ajax({
+                type: 'POST',
+                url: '/register',
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded',
+                data: {
+                    fn: false,
+                    ln: false,
+                    address: document.querySelector('#address').value,
+                    bio: false,
+                    employed: false,
+                    birthday: false,
+                    username: document.querySelector('#username').value,
+                    password: document.querySelector('#password').value
+                },
+                beforeSend: async (xhr) => {
+                    console.log('You have requested to register with Acolytes.');
+                },
+                error: async (err) => {
+                    if (err) {
+                        $('[type=submit]').toggleClass('btn--state-b');
+                        isSubmitted = false;
+
+                        location.reload();
+
+                        return console.error(err);
+                    }
+                },
+                success: async (args) => {
+                    const {
+                        err,
+                        _id,
+                        xhr
+                    } = args;
+
+                    if (err) {
+                        $('#username').val('');
+                        $('#address').val('');
+                        $('#password').val('');
+
+                        await (async (err) => {
+                            const {
+                                elements,
+                                xhr,
+                                async
+                            } = err;
+
+                            if (async) {
+                                await elements.forEach(async (
+                                    _id, i, elements) => {
+                                    if (!document
+                                        .querySelector(_id)
+                                    ) {
+                                        $('[type=submit]')
+                                            .toggleClass(
+                                                'btn--state-b'
+                                            );
+                                        isSubmitted = false;
+
+                                        return;
+                                    }
+
+                                    const element = document
+                                        .querySelector(_id);
+
+                                    element.classList.add(
+                                        'form-control--error'
+                                    );
+
+                                    element
+                                        .addEventListener(
+                                            'focus', async (
+                                                e) => {
+                                                if (e
+                                                    .target
+                                                    .closest(
+                                                        'input'
+                                                    )
+                                                    .classList
+                                                    .contains(
+                                                        'form-control--error'
+                                                    )
+                                                ) {
+                                                    e.target
+                                                        .closest(
+                                                            'input'
+                                                        )
+                                                        .classList
+                                                        .remove(
+                                                            'form-control--error'
+                                                        );
+                                                }
+                                            });
+
+                                    if (xhr) {
+                                        element
+                                            .setAttribute(
+                                                'placeholder',
+                                                xhr[_id]);
+                                        
+                                        element.value = '';
+                                    }
+
+                                    $('[type=submit]')
+                                        .toggleClass(
+                                            'btn--state-b');
+                                    isSubmitted = false;
+
+                                    location.reload();
+                                });
+                            }
+
+                            elements.forEach((_id, i, elements) => {
+                                if (!document.querySelector(
+                                        _id)) {
+                                    $('[type=submit]')
+                                        .toggleClass(
+                                            'btn--state-b');
+                                    isSubmitted = false;
+
+                                    return;
+                                }
+
+                                const element = document
+                                    .querySelector(_id);
+
+                                element.classList.add(
+                                    'form-control--error');
+
+                                element.addEventListener(
+                                    'focus', (e) => {
+                                        if (e.target
+                                            .closest(
+                                                'input')
+                                            .classList
+                                            .contains(
+                                                'form-control--error'
+                                            )) {
+                                            e.target
+                                                .closest(
+                                                    'input')
+                                                .classList
+                                                .remove(
+                                                    'form-control--error'
+                                                );
+                                        }
+                                    });
+
+                                if (xhr) {
+                                    element.setAttribute(
+                                        'placeholder', xhr[
+                                            _id]);
+
+                                    element.value = '';
+                                }
+
+                                $('[type=submit]').toggleClass(
+                                    'btn--state-b');
+                                isSubmitted = false;
+                            });
+                        })(err);
+                    }
+
+                    localStorage.setItem('_id', _id);
+
+                    if (xhr) {
+                        const {
+                            uuid,
+                            url,
+                            async
+                        } = xhr;
+
+                        if (uuid) {
+                            sessionStorage.setItem('uuid', uuid);
+
+                            if (async) {
+                                $('[type=submit]').toggleClass('btn--state-b');
+                                isSubmitted = false;
+
+                                location.reload();
+
+                                return await window.location.replace(url);
+                            }
+
+                            $('[type=submit]').toggleClass('btn--state-b');
+                            isSubmitted = false;
+
+                            window.location.replace(url);
+                        }
+                    }
+
+                    location.reload();
+                }
+            });
+        });
+    });
+</script>

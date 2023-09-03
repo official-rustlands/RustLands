@@ -1,0 +1,161 @@
+<div class="flex justify-between padding-x-md margin-y-sm items-center">
+    <h1 class="hbs-ui__text text-lg">Dashboard</h1>
+
+    <div class="language-picker margin-left-auto language-picker--flags js-language-picker"
+        data-trigger-class="btn bg js-tab-focus">
+        <form class="language-picker__form">
+            <label class="hbs-ui__text" for="hbs-ui__languages-input">Select your language</label>
+
+            <select name="language-picker-select" id="hbs-ui__languages-input">
+                <option lang="en" class="hbs-ui__text" value="english" {{#if opt.english}} selected{{/if}}>
+                    English</option>
+                <option lang="de" class="hbs-ui__text" value="deutsch" {{#if opt.deutsch}} selected{{/if}}>
+                    Deutsch</option>
+                <option lang="fr" class="hbs-ui__text" value="francais" {{#if opt.francais}} selected{{/if}}>
+                    Français</option>
+                <option lang="it" class="hbs-ui__text" value="italiano" {{#if opt.italiano}} selected{{/if}}>
+                    Italiano</option>
+            </select>
+        </form>
+    </div>
+</div>
+
+<section class="radius-md padding-md">
+    <div class="grid margin-bottom-sm gap-sm">
+        <!-- alert -->
+        <div class="alert-card bg radius-md padding-md shadow-xs col-12 js-alert-card">
+            <div class="text-component line-height-lg">
+                <h1 class="text-lg flex flex-wrap items-center">
+                    <svg class="block icon icon--md margin-right-xxs color-primary" viewBox="0 0 32 32"
+                        aria-hidden="true">
+                        <circle opacity="0.2" cx="16" cy="16" r="16" />
+                        <path opacity="0.2" d="M25.7,3.3A15.98,15.98,0,0,1,3.3,25.7,15.986,15.986,0,1,0,25.7,3.3Z" />
+                        <circle opacity="0.2" cx="14" cy="9" r="3" />
+                        <circle opacity="0.2" cx="7.5" cy="16.5" r="1.5" />
+                        <circle opacity="0.2" cx="19.5" cy="18.5" r="2.5" /></svg>
+                    <span>Welcome to your own Dashboard for RustLands!</span>
+                </h1>
+
+                <p class="color-contrast-medium">The Dashboard helps quickly display important information from RustLands!</p>
+                <a href="{{URL 'options/billing'}}">Want more info?</a>
+            </div>
+
+            <button class="reset alert-card__close-btn js-tab-focus js-alert-card__close-btn">
+                <svg class="icon icon--xs" viewBox="0 0 16 16">
+                    <title>Hide alert</title>
+                    <g fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2">
+                        <line x1="1" y1="1" x2="15" y2="15" />
+                        <line x1="15" y1="1" x2="1" y2="15" />
+                    </g>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="banner margin-bottom-sm shadow-xs bg radius-md overflow-hidden">
+        <a href="https://rustlands-webshop.tebex.io/" class="text-decoration-none" aria-label="Shop Now">
+            <div class="grid flex-row-reverse@md">
+                <div class="col-6@md overflow-hidden" aria-hidden="true">
+                    <div class="banner__figure width-100%"
+                        style="background-image: url({{ URL 'utils/img/jpg/placeholders/places.png'}});"></div>
+                </div>
+
+                <div class="col-6@md">
+                    <div class="text-component v-space-md height-100% flex flex-column padding-md padding-lg@md">
+                        <h2>Interested in purchasing any ranks or merch?</h2>
+                        <p class="margin-top-sm margin-top-lg@md" style="color: #CF412C;"><span class="banner__link"><i>Shop Now</i></span></p>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+
+<ul class="accordion padding-md bg radius-md padding-lg@md js-accordion" data-animation="on" data-multi-items="on">
+    <div style="display: flex; align-items: center; justify-content: left;">
+        <span style="color: #CF412C;" class="fa icon margin-right-xxs text-md fa-book"></span>
+        <h2>Rules</h2>
+    </div>
+
+    <div class="padding-top-md" style="border-style: solid;
+    border-color: var(--accordion-border-color);
+    border-bottom-width: var(--accordion-border-width);"></div>
+
+  <li class="accordion__item accordion__item--is-open js-accordion__item">
+    <button class="reset accordion__header padding-y-sm padding-x-md js-tab-focus" type="button">
+      <span style="font-weight: 750; color:#CF412C;" class="text-md">CHEATING OR SCRIPTING</span>
+
+      <svg class="icon accordion__icon-plus no-js:is-hidden" viewBox="0 0 20 20" aria-hidden="true">
+        <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="2" y1="10" x2="18" y2="10" />
+          <line x1="10" y1="18" x2="10" y2="2" />
+        </g>
+      </svg>
+    </button>
+
+    <div class="accordion__panel padding-top-xxs padding-x-md padding-bottom-md js-accordion__panel">
+      <div class="text-component">
+        <p>Do not use any third-party paid or free programs which provide an unfair advantage in-game. This includes scripts which can perform any action that is otherwise not possible to be performed ingame.</p>
+      </div>
+    </div>
+  </li>
+
+  <li class="accordion__item  js-accordion__item">
+    <button class="reset accordion__header padding-y-sm padding-x-md js-tab-focus" type="button">
+      <span style="font-weight: 750; color:#CF412C;" class="text-md">BAN EVASION</span>
+
+      <svg class="icon accordion__icon-plus no-js:is-hidden" viewBox="0 0 20 20" aria-hidden="true">
+        <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="2" y1="10" x2="18" y2="10" />
+          <line x1="10" y1="18" x2="10" y2="2" />
+        </g>
+      </svg>
+    </button>
+
+    <div class="accordion__panel padding-top-xxs padding-x-md padding-bottom-md js-accordion__panel">
+      <div class="text-component">
+        <p>Do not do anything to bypass a ban on our server(s). Do not try to join with a different account if you were banned, sit it out. Any try to do so will result in additional bans.</p>
+      </div>
+    </div>
+  </li>
+
+  <li class="accordion__item  js-accordion__item">
+    <button class="reset accordion__header padding-y-sm padding-x-md js-tab-focus" type="button">
+      <span style="font-weight: 750; color:#CF412C;" class="text-md">BUG ABUSE</span>
+
+      <svg class="icon accordion__icon-plus no-js:is-hidden" viewBox="0 0 20 20" aria-hidden="true">
+        <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="2" y1="10" x2="18" y2="10" />
+          <line x1="10" y1="18" x2="10" y2="2" />
+        </g>
+      </svg>
+    </button>
+
+    <div class="accordion__panel padding-top-xxs padding-x-md padding-bottom-md js-accordion__panel">
+      <div class="text-component">
+        <p>Do not try to use any unfair advantages which were not intentially possible within the game. This includes but is not limited to accessing unaccessible areas and creating graphic errors or using graphical adjustments.</p>
+      </div>
+    </div>
+  </li>
+
+  <li class="accordion__item  js-accordion__item">
+    <button class="reset accordion__header padding-y-sm padding-x-md js-tab-focus" type="button">
+      <span style="font-weight: 750; color:#CF412C;" class="text-md">HARRASSMENT AND TOXIC BEHAVIOUR</span>
+
+      <svg class="icon accordion__icon-plus no-js:is-hidden" viewBox="0 0 20 20" aria-hidden="true">
+        <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="2" y1="10" x2="18" y2="10" />
+          <line x1="10" y1="18" x2="10" y2="2" />
+        </g>
+      </svg>
+    </button>
+
+    <div class="accordion__panel padding-top-xxs padding-x-md padding-bottom-md js-accordion__panel">
+      <div class="text-component">
+        <p>Do not harrase or be overly toxic to any players, this can include in-game spamming/noise production. The use of harmful words or phrases that put down people by race or religion, are not permitted on our servers and are a banable offense.</p>
+      </div>
+    </div>
+  </li>
+
+</ul>
+</section>

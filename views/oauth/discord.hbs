@@ -1,0 +1,315 @@
+<style>
+    .btn-rust-red {
+        background: var(--color-rust-red);
+        color: var(--color-white);
+        border-radius: 0;
+        font-family: var(--font-primary);
+    }
+
+    .btn-rust-red-nav {
+        background: var(--color-rust-red);        
+        color: var(--color-white);
+        border-radius: 0;
+        font-family: var(--font-primary);
+    }
+
+    .btn-rust-red-nav:hover {
+        background: var(--color-white);
+        color: var(--color-rust-red);
+        border-radius: 0;
+        font-family: var(--font-primary);
+    }
+
+    h4 {
+        color: #CF412C;
+    }
+
+    .main-footer__link {
+        color: white;
+        font-weight: 500;
+    }
+</style>
+
+<div class="min-height-100vh flex flex-center padding-sm" style="background-position: center; background-image: url('https://cdn.discordapp.com/attachments/1126965426207871157/1136375611548520528/4k-Banner-dimmed.png');">
+    <form method="POST" autocomplete="off" action="/login" style="background-color: #232323;" class="radius-md padding-lg max-width-xs">
+        <div class="text-center margin-bottom-sm">
+            <h1>Login</h1>
+        </div>
+
+        <div class="grid gap-xs">
+            <div class="col-6@xs">
+                <a href="/oauth/steam"
+                    class="btn bg btn--preserve-width btn--form width-100%">
+                    <span class="btn__content-a">
+                        <i class="fab icon margin-right-xxxs fa-steam"></i>
+                        <span>Login with Steam</span>
+                    </span>
+                    <span class="btn__content-b">
+                        <svg class="icon icon--is-spinning" aria-hidden="true" viewBox="0 0 16 16">
+                            <title>Loading</title>
+                            <g stroke-width="1" fill="currentColor" stroke="currentColor">
+                                <path d="M.5,8a7.5,7.5,0,1,1,1.91,5" fill="none" stroke="currentColor"
+                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                        </svg>
+                    </span>
+                </a>
+            </div>
+
+            <div class="col-6@xs">
+                <a
+                    href="/login"
+                    class="btn bg btn--preserve-width btn--form width-100%">
+                    <span class="btn__content-a">
+                        <i class="fa icon margin-right-xxxs fa-globe"></i>
+                        <span>Login with Us</span>
+                    </span>
+                    <span class="btn__content-b">
+                        <svg class="icon icon--is-spinning" aria-hidden="true" viewBox="0 0 16 16">
+                            <title>Loading</title>
+                            <g stroke-width="1" fill="currentColor" stroke="currentColor">
+                                <path d="M.5,8a7.5,7.5,0,1,1,1.91,5" fill="none" stroke="currentColor"
+                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                        </svg>
+                    </span>
+                </a>
+            </div>
+        </div>
+
+        <p class="text-center margin-y-xxs">or</p>
+
+        <div class="margin-bottom-sm">
+            <label class="form-label margin-bottom-xxxs" for="discordid">Discord ID</label>
+            <input class="form-control width-100%" id="discordid" autocomplete="off" name="discordid"
+                aria-label="Discord ID" type="text" placeholder="Discord ID" pattern=".{8,}" required
+                title="8 characters minimum">
+        </div>
+
+        <div class="margin-bottom-sm">
+            <div class="flex justify-between margin-bottom-xxxs">
+                <label class="form-label" for="password">Password</label>
+                <span class="text-sm"><a href="/forgot-your-password">Forgot your password?</a></span>
+            </div>
+
+            <input class="form-control password__input js-password__input width-100%" id="password" autocomplete="off"
+                class="form-control " name="password" aria-label="Password" type="password" placeholder="Password"
+                pattern=".{10,}" required title="10 characters minimum">
+        </div>
+
+        <div class="margin-bottom-sm">
+            <div class="flex justify-between">
+                <input class="checkbox checkbox--inline" type="checkbox" name="remember" id="remember">
+                <label class="text-sm" for="remember">Remember me</label>
+            </div>
+        </div>
+
+        <div class="margin-bottom-xs">
+            <button type="submit"
+                class="btn btn-rust-red sign-in__btn btn--form btn--preserve-width btn--md width-100%">
+                <span style="font-weight: 700;" class="btn__content-a">Login</span>
+                <span class="btn__content-b">
+                    <svg class="icon icon--is-spinning" aria-hidden="true" viewBox="0 0 16 16">
+                        <title>Loading</title>
+                        <g stroke-width="1" fill="currentColor" stroke="currentColor">
+                            <path d="M.5,8a7.5,7.5,0,1,1,1.91,5" fill="none" stroke="currentColor"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </g>
+                    </svg>
+                </span>
+            </button>
+        </div>
+
+        <div class="text-center">
+            <p class="text-sm">Don't have an account? <a href="/register">Register</a></p>
+        </div>
+    </form>
+</div>
+
+<script class="hbs-ui__scripts">
+    $(async () => {
+        let isSubmitted = false;
+
+        $('form').on('submit', async (e) => {
+            e.preventDefault();
+
+            if (isSubmitted) {
+                return;
+            }
+
+            isSubmitted = true;
+
+            $('[type=submit]').toggleClass('btn--state-b');
+
+            $.ajax({
+                type: 'POST',
+                url: '/oauth/discord',
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded',
+                data: $('form').serialize(),
+                beforeSend: async (xhr) => {
+                    console.log('You have requested to login with Acolytes.');
+                },
+                error: async (err) => {
+                    if (err) {
+                        $('[type=submit]').toggleClass('btn--state-b');
+                        isSubmitted = false;
+
+                        return console.error(err);
+                    }
+                },
+                success: async (args) => {
+                    const {
+                        err,
+                        _id,
+                        xhr
+                    } = args;
+
+                    if (err) {
+                        return await (async (err) => {
+                            const {
+                                elements,
+                                xhr,
+                                async
+                            } = err;
+
+                            if (async) {
+                                return await elements.forEach(async (
+                                    _id, i, elements) => {
+                                    if (!document
+                                        .querySelector(_id)
+                                    ) {
+                                        $('[type=submit]')
+                                            .toggleClass(
+                                                'btn--state-b'
+                                            );
+                                        isSubmitted = false;
+
+                                        return;
+                                    }
+
+                                    const element = document
+                                        .querySelector(_id);
+
+                                    element.classList.add(
+                                        'form-control--error'
+                                    );
+
+                                    element
+                                        .addEventListener(
+                                            'focus', async (
+                                                e) => {
+                                                if (e
+                                                    .target
+                                                    .closest(
+                                                        'input'
+                                                    )
+                                                    .classList
+                                                    .contains(
+                                                        'form-control--error'
+                                                    )
+                                                ) {
+                                                    e.target
+                                                        .closest(
+                                                            'input'
+                                                        )
+                                                        .classList
+                                                        .remove(
+                                                            'form-control--error'
+                                                        );
+                                                }
+                                            });
+
+                                    if (xhr) {
+                                        element
+                                            .setAttribute(
+                                                'placeholder',
+                                                xhr[_id]);
+                                    }
+
+                                    $('[type=submit]')
+                                        .toggleClass(
+                                            'btn--state-b');
+                                    isSubmitted = false;
+                                });
+                            }
+
+                            elements.forEach((_id, i, elements) => {
+                                if (!document.querySelector(
+                                        _id)) {
+                                    $('[type=submit]')
+                                        .toggleClass(
+                                            'btn--state-b');
+                                    isSubmitted = false;
+
+                                    return;
+                                }
+
+                                const element = document
+                                    .querySelector(_id);
+
+                                element.classList.add(
+                                    'form-control--error');
+
+                                element.addEventListener(
+                                    'focus', (e) => {
+                                        if (e.target
+                                            .closest(
+                                                'input')
+                                            .classList
+                                            .contains(
+                                                'form-control--error'
+                                            )) {
+                                            e.target
+                                                .closest(
+                                                    'input')
+                                                .classList
+                                                .remove(
+                                                    'form-control--error'
+                                                );
+                                        }
+                                    });
+
+                                if (xhr) {
+                                    element.setAttribute(
+                                        'placeholder', xhr[
+                                            _id]);
+                                }
+
+                                $('[type=submit]').toggleClass(
+                                    'btn--state-b');
+                                isSubmitted = false;
+                            });
+                        })(err);
+                    }
+
+                    localStorage.setItem('_id', _id);
+
+                    if (xhr) {
+                        const {
+                            uuid,
+                            url,
+                            async
+                        } = xhr;
+
+                        if (uuid) {
+                            sessionStorage.setItem('uuid', uuid);
+
+                            if (async) {
+                                $('[type=submit]').toggleClass('btn--state-b');
+                                isSubmitted = false;
+
+                                return await window.location.replace(url);
+                            }
+
+                            $('[type=submit]').toggleClass('btn--state-b');
+                            isSubmitted = false;
+
+                            window.location.replace(url);
+                        }
+                    }
+                }
+            });
+        });
+    });
+</script>
