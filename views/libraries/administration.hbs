@@ -220,7 +220,7 @@
     document.querySelector('#push_notif').addEventListener('click', async () => {
         $.ajax({
             type: 'GET',
-            url: `https://www.reece-barker.co/administration/pushNotification?username=${document.querySelector('#username_notif').value}&message=${document.querySelector('#message').value}`,
+            url: `https://rustlands.co/administration/pushNotification?username=${document.querySelector('#username_notif').value}&message=${document.querySelector('#message').value}`,
             dataType: 'json',
             success: async (res) => {
                 document.querySelector('#username_notif').value = '';
@@ -234,7 +234,7 @@
 
     $.ajax({
         type: 'GET',
-        url: 'https://www.reece-barker.co/administration/getUsers',
+        url: 'https://rustlands.co/administration/getUsers',
         dataType: 'json',
         success: async (res) => {
             let body = '';

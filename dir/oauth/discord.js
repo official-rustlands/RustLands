@@ -69,7 +69,7 @@ router.get('/return', async (req, res) => {
         });
     }
 
-    res.redirect('https://www.reece-barker.co/options/account');
+    res.redirect('https://rustlands.net/options/account');
 });
 
 module.exports = this;

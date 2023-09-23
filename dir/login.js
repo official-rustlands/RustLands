@@ -187,6 +187,8 @@ router.post('/', async (req, res, next) => {
             res.clearCookie('steamid');
         }
 
+        req.session.save();
+
         await req.db.db(req.env.realm.db).collection('users').updateOne({
             username: users.username
         }, {
