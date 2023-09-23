@@ -25,7 +25,9 @@ module.exports = {
     db: async () => {
         const realm = Realm.App.getApp(env.realm._id);
 
-        const user = await realm.logIn(Realm.Credentials.emailPassword(process.env.USERNAME, process.env.PASSWORD));
+        let credentials = await Realm.Credentials.emailPassword(process.env._USERNAME, process.env.PASSWORD);
+
+        const user = await realm.logIn(credentials);
 
         return user.mongoClient(env.realm._atlas);
     },

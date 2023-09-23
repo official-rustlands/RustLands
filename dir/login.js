@@ -54,77 +54,6 @@ router.get('/', async (req, res, next) => {
     next();
 });
 
-router.get('/github', async (req, res, next) => {
-    const {
-        access_token
-    } = req.query;
-
-    if (!access_token) return res.redirect('/login');
-
-    next();
-}, async (req, res) => {
-    const {
-        access_token
-    } = req.query;
-
-    const {
-        login,
-        id
-    } = (await superagent
-        .get('https://api.github.com/user')
-        .set('User-Agent', 'PostmanRuntime/7.26.8')
-        .set('Authorization', `token ${access_token}`)).body;
-
-    const encryption = await crypto.createHash('sha256').update(`${id}`).digest('base64');
-
-    if (!await req.db.db(req.env.realm.db).collection('users').findOne({
-        username: login,
-        '_apis.github': encryption
-    })) {
-        return res.redirect(`/register/github?access_token=${access_token}`);
-    }
-
-    await req.db.db(req.env.realm.db).collection('users').findOne({
-        username: login,
-        '_apis.github': encryption
-    }).then(async (users) => {
-        const _uuid = uuid.v4();
-
-        res.cookie('_uuid', _uuid);
-
-        res.locals.users = users;
-
-        req.session.cookie.maxAge = 60000 * 60;
-
-        req.session._uuid = _uuid;
-        req.session.users = {
-            _id: users._id,
-            _apis: users._apis,
-            _clients: {
-                _id: req.session.id,
-                _credentials: {
-                    username: users.username,
-                    password: users.password
-                }
-            }
-        }
-
-        req.session.save();
-
-        await req.db.db(req.env.realm.db).collection('users').updateOne({
-            username: users.username
-        }, {
-            $set: {
-                "_options.status": true
-            }
-        }, {
-            upsert: false
-        });
-
-        res.redirect('/dashboard');
-    });
-});
-
 router.post('/', async (req, res, next) => {
     if (req.session._uuid) {
         return res.redirect('/dashboard');
@@ -257,8 +186,6 @@ router.post('/', async (req, res, next) => {
 
             res.clearCookie('steamid');
         }
-
-        req.session.save();
 
         await req.db.db(req.env.realm.db).collection('users').updateOne({
             username: users.username

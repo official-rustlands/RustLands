@@ -130,67 +130,6 @@
                                 async
                             } = err;
 
-                            if (async) {
-                                return await elements.forEach(async (
-                                    _id, i, elements) => {
-                                    if (!document
-                                        .querySelector(_id)
-                                    ) {
-                                        $('[type=submit]')
-                                            .toggleClass(
-                                                'btn--state-b'
-                                            );
-                                        isSubmitted = false;
-
-                                        return;
-                                    }
-
-                                    const element = document
-                                        .querySelector(_id);
-
-                                    element.classList.add(
-                                        'form-control--error'
-                                    );
-
-                                    element
-                                        .addEventListener(
-                                            'focus', async (
-                                                e) => {
-                                                if (e
-                                                    .target
-                                                    .closest(
-                                                        'input'
-                                                    )
-                                                    .classList
-                                                    .contains(
-                                                        'form-control--error'
-                                                    )
-                                                ) {
-                                                    e.target
-                                                        .closest(
-                                                            'input'
-                                                        )
-                                                        .classList
-                                                        .remove(
-                                                            'form-control--error'
-                                                        );
-                                                }
-                                            });
-
-                                    if (xhr) {
-                                        element
-                                            .setAttribute(
-                                                'placeholder',
-                                                xhr[_id]);
-                                    }
-
-                                    $('[type=submit]')
-                                        .toggleClass(
-                                            'btn--state-b');
-                                    isSubmitted = false;
-                                });
-                            }
-
                             elements.forEach((_id, i, elements) => {
                                 if (!document.querySelector(
                                         _id)) {
@@ -251,13 +190,6 @@
 
                         if (uuid) {
                             sessionStorage.setItem('uuid', uuid);
-
-                            if (async) {
-                                $('[type=submit]').toggleClass('btn--state-b');
-                                isSubmitted = false;
-
-                                return await window.location.replace(url);
-                            }
 
                             $('[type=submit]').toggleClass('btn--state-b');
                             isSubmitted = false;
