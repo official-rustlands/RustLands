@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const express = require('express');
 const router = this.$.router = express.Router();
 const axios = require('axios');
-const path = this.$.path = ['/oauth/discord'][0];
+this.$.path = ['/oauth/discord'][0];
 
 router.get('/', async (req, res) => {
     const redirect_url = `https://discord.com/oauth2/authorize?response_type=code&client_id=${process.env.CLIENT_ID}&scope=identify&state=123456&redirect_uri=${process.env.REDIRECT_URI}&prompt=consent`
