@@ -622,23 +622,19 @@
                     item.remove();
                 });
 
-                if (notifs_list.children.length <= 1) {
-                    notifs_none.classList.remove('sr-only');
-                } else {
-                    notifs_none.classList.add('sr-only');
+                notifs_none.classList.remove('sr-only');
 
-                    $.ajax({
-                        type: 'GET',
-                        url: 'https://rustlands.net/api/notifications',
-                        dataType: 'json',
-                        success: async (res) => {
-                            console.log('Done!')
-                        },
-                        error: async (res) => {
-                            return console.error('Unable to remove notification, possible server issue.');
-                        }
-                    });
-                }
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://rustlands.net/api/notifications',
+                    dataType: 'json',
+                    success: async (res) => {
+                        console.log('Done!')
+                    },
+                    error: async (res) => {
+                        return console.error('Unable to remove notification, possible server issue.');
+                    }
+                });
             });
         </script>
 
