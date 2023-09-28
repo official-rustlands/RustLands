@@ -1,3 +1,4 @@
-module.exports = ['URL', (url) => {
-    return 'https://rustlands.net/' + url;
-}];
+
+    module.exports = ['URL', (url) => {
+        return 'https://localhost:3000/' + url;
+    }];

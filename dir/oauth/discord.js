@@ -69,7 +69,7 @@ router.get('/return', async (req, res) => {
         });
     }
 
-    res.redirect('https://rustlands.net/options/account');
+    res.redirect(`https://${process.env.DOMAIN}/options/account`);
 });
 
 module.exports = this;

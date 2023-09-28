@@ -26,7 +26,7 @@ const {
 } = require('mongodb-stitch-browser-sdk');
 
 const client = express();
-const https = require('http').createServer(/*{
+const https = require('https').createServer({
     cert: fs.readFileSync(`${process.cwd()}/ssl/reece-barker_co.crt`, {
         encoding: 'utf8'
     }),
@@ -36,12 +36,20 @@ const https = require('http').createServer(/*{
     key: fs.readFileSync(`${process.cwd()}/ssl/reece-barker_co.key`, {
         encoding: 'utf8'
     })
-},*/
+},
     client);
 const io = require('socket.io')(https);
 
 const utils = require(`${process.cwd()}/env.js`);
 const env = require(path.join(process.cwd(), '/env.json'))
+
+fs.writeFile(path.join(process.cwd(), '/bin/hbs/4.hbs.js'), `
+    module.exports = ['URL', (url) => {
+        return 'https://${process.env.DOMAIN}/' + url;
+    }];
+`, (err) => {
+    if (err) return console.error(err);
+});
 
 client.set('session', session({
     genid: () => {
@@ -75,7 +83,7 @@ client.use(client.get('session'));
 client.use(express.json());
 
 client.use(cors({
-    origin: '*.rustlands.net'
+    origin: `*.${process.env.DOMAIN}`
 }));
 
 client.use('/utils', express.static(`${process.cwd()}/bin`));
@@ -174,8 +182,8 @@ passport.deserializeUser((user, done) => {
 });
 
 passport.use(new SteamStrategy({
-        returnURL: 'https://rustlands.net' + '/oauth/steam/return',
-        realm: 'https://rustlands.net' + '/',
+        returnURL: `https://${process.env.DOMAIN}` + '/oauth/steam/return',
+        realm: `https://${process.env.DOMAIN}` + '/',
         apiKey: '12148C1CA5858CA82636C6951F0D8161'
     }, function (identifier, profile, done) {
         process.nextTick(function () {
@@ -191,7 +199,7 @@ client.use(passport.session());
 process.stdout.write(clc.reset);
 
 https.listen(process.env.PORT, async () => {
-    process.stdout.write(clc.yellow(`\nhttps://rustlands.net/`));
+    process.stdout.write(clc.yellow(`\nhttps://${process.env.DOMAIN}/`));
 });
 
 this.__init__ = async (dir, files) => {

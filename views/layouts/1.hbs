@@ -10,12 +10,12 @@
         <meta property="og:type" content="website">
         <meta property="og:title" content="RustLands Website">
         <meta property="og:description" content="The website for the professional rust gaming server RustLands, providing the most enjoyable rust gaming experience.">
-        <meta property="og:image" content="{{URL 'utils/img/jpg/favicon.ico'}}">
-        <meta name="twitter:card" content="{{URL 'utils/img/jpg/favicon.ico'}}">
+        <meta property="og:image" content="{{URL 'utils/img/png/logo.png'}}">
+        <meta name="twitter:card" content="{{URL 'utils/img/png/logo.png'}}">
         <meta property="twitter:url" content="https://rustlands.net/">
         <meta name="twitter:title" content="RustLands Website">
         <meta name="twitter:description" content="The website for the professional rust gaming server RustLands, providing the most enjoyable rust gaming experience.">
-        <meta name="twitter:image" content="{{URL 'utils/img/jpg/favicon.ico'}}">
+        <meta name="twitter:image" content="{{URL 'utils/img/png/logo.png'}}">
         <script>document.getElementsByTagName("html")[0].className += " js";</script>
         <link rel="icon" type="image/svg+xml" href="{{URL 'utils/img/jpg/favicon.ico'}}">
         <link rel="alternate icon" href="{{URL 'utils/img/jpg/favicon.ico'}}" type="image/ico">
@@ -621,7 +621,7 @@
 
                 $.ajax({
                     type: 'GET',
-                    url: 'https://rustlands.net/api/notifications',
+                    url: '/api/notifications',
                     dataType: 'json',
                     success: async (res) => {
                         console.log('Done!')
